@@ -23,7 +23,7 @@ public:
         if (pos == word.size()) {
             if (count > 0)
                 cur += to_string(count);
-            res.push_back(cur);
+            res.push_back(move(cur));
             return;
         }
         
