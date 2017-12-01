@@ -34,7 +34,7 @@ public:
         // Topological order
         for (int i = 1; i <= n; ++i) {
             // Subproblem
-            for (int j = 0; j <= n - 1; ++j) {
+            for (int j = 0; j <= i - 1; ++j) {
                 // break the "and" relationship for clearness
                 if (dp[j]) {
                     const string sub = s.substr(j, i - j);
