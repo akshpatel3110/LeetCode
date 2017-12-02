@@ -23,7 +23,7 @@ public:
             // Check whether left part can be segmented
             const string left = s.substr(0, pos);           
             if (wordBreak(left, wordSet, memo))
-                return memo[s]=true;
+                return memo[s] = true;
         }
         
         // No solution for s
