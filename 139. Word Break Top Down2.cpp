@@ -15,10 +15,14 @@ public:
             return memo[s] = true;
         
         for (int pos = 1; pos < s.size(); ++pos) {
-            const string left = s.substr(0, pos);
+            // Check whether right part is in word set
             const string right = s.substr(pos);
-            // Find solution for s
-            if (wordSet.find(right) != wordSet.end() && wordBreak(left, wordSet, memo))
+            if (wordSet.find(right) == wordSet.end())
+                continue;
+            
+            // Check whether left part can be segmented
+            const string left = s.substr(0, pos);           
+            if (wordBreak(left, wordSet, memo))
                 return memo[s]=true;
         }
         
