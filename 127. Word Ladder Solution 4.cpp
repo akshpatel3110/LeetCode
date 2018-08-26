@@ -1,4 +1,4 @@
-// Time O(26 * word_len * size of word_list) = O(word_len * size of word_list)
+// Time O(26 * word_len * size of word_list) = O(26 * word_len * size of word_list)
 // Space O(size of word_list)
 
 class Solution {
@@ -8,9 +8,11 @@ public:
         if (dic.find(end_word) == dic.end()) 
             return 0;
         
+        // we don't want to have a path like hit -> ... -> hit -> ...
+        dic.erase(begin_word);
+        
         int level = 0;
         int word_len = begin_word.length();
-        
         
         unordered_map<string, int> from_pos;
         from_pos[begin_word] = -1;
@@ -46,7 +48,7 @@ public:
                         
                         from_pos[word] = pos;
 
-                        // we don't want to have a path like hit -> ... -> hit
+                        // we don't want to have a path like ... -> hot -> ... -> hot -> ...
                         dic.erase(word);
                         
                         // queue word to the next level

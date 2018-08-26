@@ -7,7 +7,10 @@ public:
         unordered_set<string> dic(wordList.begin(), wordList.end());        
         if (dic.find(end_word) == dic.end()) 
             return 0;
-        
+
+         // we don't want to have a path like hit -> ... -> hit -> ...
+         dic.erase(begin_word);
+
         int level = 0;
         int word_len = begin_word.length();
         
@@ -33,8 +36,8 @@ public:
                         
                         if (dic.find(word) == dic.end())
                             continue;
-                        
-                        // we don't want to have a path like hit -> ... -> hit
+                       
+                        // we don't want to have a path like ... -> hot -> ... -> hot -> ...
                         dic.erase(word);
                         
                         // queue word to the next level
