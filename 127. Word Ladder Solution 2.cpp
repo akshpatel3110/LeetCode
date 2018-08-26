@@ -1,4 +1,4 @@
-// Time O(26 * word_len * size of word_list) = O(26 * word_len * size of word_list)
+// Time O(26 * word_len * size of word_list) = O(word_len * size of word_list)
 // Space O(size of word_list)
 
 class Solution {
