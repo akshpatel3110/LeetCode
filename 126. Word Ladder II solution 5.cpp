@@ -1,4 +1,4 @@
-// beats 96.36% backword graph and bidirectional bfs
+// beats 91.84% forward graph and bidirectional bfs
 
 class Solution {
 public:
@@ -26,7 +26,7 @@ public:
         bool set_overlaps = false;
         
         // This is what we add for word ladder II
-        unordered_map<string, vector<string>> parents;
+        unordered_map<string, vector<string>> children;
         bool forward = true;
 
         while (!front.empty() && !back.empty() && !set_overlaps) {
@@ -40,7 +40,7 @@ public:
             // we don't want to have a path like ... -> hot -> ... -> hot -> ...
             for (const string & orig_word : front)
                 dic.erase(orig_word);
-            
+
             // our good friend the new_front
             unordered_set<string> new_front;
             for (const string & orig_word : front) {
@@ -69,11 +69,11 @@ public:
                         // front and back overlaps
                         if (back.find(new_word) != back.end()) {
                             set_overlaps = true;
-                            parents[*child].push_back(*parent);                             
+                            children[*parent].push_back(*child);                             
                         } else if (dic.find(new_word) != dic.end() && !set_overlaps) {
                             // dedupped automatically
                             new_front.insert(new_word);
-                            parents[*child].push_back(*parent);
+                            children[*parent].push_back(*child);
                             from_pos[new_word] = pos;
                         }
                     }
@@ -86,28 +86,28 @@ public:
         // standard dfs
         vector<vector<string>> res;
         if (set_overlaps) {
-            vector<string> line{end_word};
-            dfs(begin_word, end_word, parents, line, res);
+            vector<string> line{begin_word};
+            dfs(end_word, begin_word, children, line, res);
         }
         return res;
     }
 
 private:
-    void dfs(const string & begin_word,
+    void dfs(const string & end_word,
              const string & cur_word,
-             const unordered_map<string, vector<string>>& parents,
+             const unordered_map<string, vector<string>>& children,
              vector<string> & line,
              vector<vector<string>> & res) {
-        if (cur_word == begin_word) {
-            res.push_back(vector<string>(line.rbegin(), line.rend()));
+        if (cur_word == end_word) {
+            res.push_back(vector<string>(line.begin(), line.end()));
             return;
         }
-        
-        auto it = parents.find(cur_word);
-        if (it != parents.end()) {
+
+        auto it = children.find(cur_word);
+        if (it != children.end()) {
             for (const string & word : it->second) {
                 line.push_back(word);
-                dfs(begin_word, word, parents, line, res);
+                dfs(end_word, word, children, line, res);
                 line.pop_back();
             }
         }
