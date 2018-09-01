@@ -1,4 +1,4 @@
-// beats 90.14% backword graph and bidirectional bfs
+// beats 96.36% backword graph and bidirectional bfs
 
 class Solution {
 public:
@@ -41,9 +41,6 @@ public:
             for (const string & orig_word : front)
                 dic.erase(orig_word);
 
-            for (const string & orig_word : back)
-                dic.erase(orig_word);
-            
             // our good friend the new_front
             unordered_set<string> new_front;
             for (const string & orig_word : front) {
