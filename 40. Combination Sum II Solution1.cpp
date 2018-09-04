@@ -1,14 +1,11 @@
 /*
-p = target / min(candidates[i]) + 1
-n = size of candidates
-C(n, r) = (n + r - 1)! / (n-1)r!
-Time: O(C(n, 1) + C(n, 2) + C(n, 3) + … + C(n, p))
-Space: O(path + recursion stack) = O(p)
+Time: O(C(n, 1) + C(n, 2) + C(n, 3) + … + C(n, n)) = O(2 ^ n - 1)
+Space: O(path + recursion stack) = O(n / min(candidates[i]) + 1)
 */
 
 class Solution {
 public:
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         vector<vector<int>> res;
         vector<int> path;
         sort(candidates.begin(), candidates.end());
@@ -27,9 +24,12 @@ private:
             if (candidates[next_idx] > target) 
                 return;
             
+            if (next_idx > idx && candidates[next_idx] == candidates[next_idx - 1])
+                continue;
+
             path.push_back(candidates[next_idx]);
-            dfs(candidates, target - candidates[next_idx], next_idx, res, path);
+            dfs(candidates, target - candidates[next_idx], next_idx + 1, res, path);
             path.pop_back();
-        }
+        }        
     }
 };
