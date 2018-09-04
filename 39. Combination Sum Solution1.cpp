@@ -25,7 +25,7 @@ private:
         
         for (int i = idx; i < candidates.size(); ++i) {
             if (candidates[i] > target) 
-                break;
+                return;
             
             path.push_back(candidates[i]);
             dfs(candidates, target - candidates[i], i, res, path);
