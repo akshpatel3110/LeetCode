@@ -28,12 +28,12 @@ public:
         } else if (x == getMin()) {
             // min we found before
             if (unique_min_stack.empty() || unique_min_stack.top() != x) {
-                // min has count > 2
+                // min has count >= 2 before push
                 int new_count = duplicate_min_count.top() + 1;
                 duplicate_min_count.pop();
                 duplicate_min_count.push(new_count);
             } else {
-                // min has count == 2
+                // min has count == 1 before push
                 unique_min_stack.pop();
                 duplicate_min_stack.push(x);
                 duplicate_min_count.push(2);
