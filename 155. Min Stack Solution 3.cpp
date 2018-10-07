@@ -4,7 +4,7 @@ optimized for space usage while keeping O(1) time operation
 Original stack:             5, 4, 4, 3, 4, 2, 2, 2 … 2 (repeated 1 thousand times)
 Unique min stack:           5, 4, 3, 2
 Duplicate min stack:        4, 2
-Duplicate min stack count:  3, 1000
+Duplicate min stack count:  2, 1000
 */
 
 class MinStack {
