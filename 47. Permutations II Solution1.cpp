@@ -18,8 +18,8 @@ public:
         // enumerate possible numbers for current position
         for (int i = 0 ; i < nums.size(); ++i) {
             if (!used[i]) {
-                // skip same number for current position if used before
-                if (i > 0 && nums[i] == nums[i - 1] && used[i - 1])
+                // skip same number for current position
+                if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])
                     continue;
                 
                 used[i] = true;
