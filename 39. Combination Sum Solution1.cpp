@@ -23,12 +23,12 @@ private:
             return;
         }
         
-        for (int next_idx = idx; next_idx < candidates.size(); ++next_idx) {
-            if (candidates[next_idx] > target) 
+        for (int i = idx; i < candidates.size(); ++i) {
+            if (candidates[i] > target) 
                 return;
             
-            path.push_back(candidates[next_idx]);
-            dfs(candidates, target - candidates[next_idx], next_idx, res, path);
+            path.push_back(candidates[i]);
+            dfs(candidates, target - candidates[i], i, res, path);
             path.pop_back();
         }
     }
