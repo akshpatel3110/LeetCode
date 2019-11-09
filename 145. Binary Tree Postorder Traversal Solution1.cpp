@@ -7,12 +7,9 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-
-// Time: O(n)
-// Space: O(h)
 class Solution {
 public:
-    vector<int> inorderTraversal(TreeNode* root) {
+    vector<int> postorderTraversal(TreeNode* root) {
         vector<int> res;
         dfs(root, res);
         return res;
@@ -23,7 +20,7 @@ public:
             return;
         
         dfs(node->left, res);
-        res.push_back(node->val);
         dfs(node->right, res);
+        res.push_back(node->val);
     }
 };
