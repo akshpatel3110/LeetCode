@@ -1,17 +1,18 @@
-
+// Time: O(o(s) + o(t))
+// Space: O(1)
+// fix i, move j
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        int cur_pos = -1;
-        unordered_map<char, vector<int>> pos;
-        for (int i = 0; i < t.size(); ++i)
-            pos[t[i]].push_back(i);
-        
-        for (char c : s) {
-            auto it = upper_bound(pos[c].begin(), pos[c].end(), cur_pos);
-            if (it == pos[c].end())
+        int i = 0, j = 0;
+        while (i < s.size()) {
+            while (j < t.size() && s[i] != t[j])
+                ++j;
+            
+            if (j == t.size())
                 return false;
-            cur_pos = *it;
+            ++i;
+            ++j;
         }
         return true;
     }

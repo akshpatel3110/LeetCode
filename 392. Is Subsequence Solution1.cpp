@@ -1,12 +1,14 @@
 // Time: O(o(s) + o(t))
 // Space: O(1)
+// fix j, move i
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        int i = 0;
-        for (int j = 0; i < s.size() && j < t.size(); ++j) {
+        int i = 0, j = 0;
+        while (j < t.size()) {
             if (s[i] == t[j])
                 ++i;
+            ++j;
         }
         return i == s.size();
     }
