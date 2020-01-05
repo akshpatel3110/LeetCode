@@ -1,7 +1,10 @@
-// n: sizeof(strs)
+// n: number of strings
 // l: average length of a string
-// Time: O(nllogl)
+// Time: sorting O(nllogl) + push_back O(nl)
 // Space: since value is moved, should be O(number of unique keys) = O(nl)
+
+// hash map key sorted string, value vector<string>
+
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
