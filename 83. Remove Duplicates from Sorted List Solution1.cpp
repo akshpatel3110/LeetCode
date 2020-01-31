@@ -12,14 +12,12 @@ public:
         if (!head)
             return head;
         
-        auto p = head;
-        while (p->next) {
-            if (p->val == p->next->val) {
-                auto node = p->next;
-                p->next = node->next;
-                delete node;
+        auto node = head;
+        while (node->next) {
+            if (node->val == node->next->val) {
+                node->next = node->next->next;
             } else {
-                p = p->next;
+                node = node->next;
             }
         }
         return head;
