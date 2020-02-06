@@ -1,25 +1,27 @@
-class MaxHeap {
-    vector<int> index;
-    vector<pair<int, int>> values;
+class max_heap {
+    vector<int> index; // id -> index into values
+    vector<pair<int, int>> values; // first is the height, second is id
     int size;
     
-    void swapNode(int index1, int index2) {
+    void swap_node(int index1, int index2) {
         swap(index[values[index1].second], index[values[index2].second]);
         swap(values[index1], values[index2]);
     }
     
-    void heapifyUp(int idx) {
+    // idx for values vector
+    void heapify_up(int idx) {
         while (idx != 0) {
             int parent = (idx - 1) / 2;
             if (values[idx].first <= values[parent].first)
                 return;
             
-            swapNode(idx, parent);
+            swap_node(idx, parent);
             idx = parent;
         }
     }
     
-    void heapifyDown(int idx) {
+    // idx for values vector
+    void heapify_down(int idx) {
         while (true) {
             int l = idx * 2 + 1;
             int r = idx * 2 + 2;
@@ -35,31 +37,34 @@ class MaxHeap {
             if (largest == idx)
                 return;
             
-            swapNode(largest, idx);
+            swap_node(largest, idx);
             idx = largest;
         }
     }
     
 public:
-    MaxHeap(int s): index(s), values(s), size(0) {}
+    max_heap(int s): index(s), values(s), size(0) {}
     
+    // O(1)
     int max() const {
         return values[0].first;
     }
     
+    // O(logn)
     void insert(int height, int id) {
         index[id] = size;
         values[size] = {height, id};
         ++size;
-        heapifyUp(index[id]);
+        heapify_up(index[id]);
     }
     
+    // O(logn)
     void remove(int id) {
-        int indexRemove = index[id];
-        swapNode(indexRemove, size - 1);
+        int index_to_remove = index[id];
+        swap_node(index_to_remove, size - 1);
         --size;
-        heapifyUp(indexRemove);
-        heapifyDown(indexRemove);
+        heapify_up(index_to_remove);
+        heapify_down(index_to_remove);
     }
 };
 
@@ -67,9 +72,9 @@ class Solution {
 public:
     // Time: O(nlogn)
     // Space: O(n)
-    // entering and leaving point with same x, process entering point first -> set entering point to a negative value
-    // entering point with same x, process the highest point first -> set entering point to a negative value
-    // leaving point with same x, process the lowest point first -> set leaving point to a positive value
+    // entering and leaving point with the same x, process the entering point first -> set height of entering point to a negative value, and set height of leaving point to a positive value
+    // entering point with same x, process the highest point first -> set height of entering point to a negative value
+    // leaving point with same x, process the lowest point first -> set height of leaving point to a positive value
     vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
         vector<vector<int>> res;
         vector<Point> points;
@@ -79,17 +84,19 @@ public:
             points.push_back(Point{i + 1, b[1], b[2]});
         }
         sort(points.begin(), points.end());
-        MaxHeap heap(buildings.size() + 1); // plus one for the zero
+        max_heap heap(buildings.size() + 1); // plus one for the zero
         heap.insert(0, 0); // height 0, id 0
+        int pre = 0, cur = 0;
         for (auto & p : points) {
             if (p.h < 0) {
-                if (-p.h > heap.max())
-                    res.push_back({p.x, -p.h});
                 heap.insert(-p.h, p.id);
             } else {
                 heap.remove(p.id);
-                if (p.h > heap.max())
-                    res.push_back({p.x, heap.max()});
+            }
+            cur = heap.max();
+            if (cur != pre) {
+                res.push_back({p.x, cur});
+                pre = cur;
             }
         }
         return res;
