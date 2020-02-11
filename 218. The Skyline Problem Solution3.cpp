@@ -63,7 +63,7 @@ public:
         int index_to_remove = index[id];
         swap_node(index_to_remove, size - 1);
         --size;
-        heapify_up(index_to_remove);
+        // heapify_up(index_to_remove);
         heapify_down(index_to_remove);
     }
 };
@@ -89,14 +89,13 @@ public:
         int pre = 0, cur = 0;
         for (auto & p : points) {
             if (p.h < 0) {
+                if (-p.h > heap.max())
+                    res.push_back({p.x, -p.h});
                 heap.insert(-p.h, p.id);
             } else {
                 heap.remove(p.id);
-            }
-            cur = heap.max();
-            if (cur != pre) {
-                res.push_back({p.x, cur});
-                pre = cur;
+                if (p.h > heap.max())
+                    res.push_back({p.x, heap.max()});
             }
         }
         return res;
