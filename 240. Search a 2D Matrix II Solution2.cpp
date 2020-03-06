@@ -1,6 +1,6 @@
 class Solution {
 public:
-    // Time: O(max(m, n) * (logm + logn))
+    // Time: O(min(m, n) * (logm + logn))
     // Space: O(1)
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
         if (matrix.empty() || matrix[0].empty())
