@@ -1,6 +1,7 @@
 class Solution {
 public:
-    // Time: O(min(m, n) * (logm + logn))
+    // when left/right or up/down meets, the other dimension takes at most one additional binary search to end the while loop. On average, the maximum iteration is a very small number. In the worst case, which is very rare, each iteration only shrinks one of the (up, down, left, right). The maximum iteration will be m + n.
+    // Time: O((m + n) * (logm + logn))
     // Space: O(1)
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
         if (matrix.empty() || matrix[0].empty())
