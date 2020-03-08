@@ -8,14 +8,14 @@ public:
                     continue;
                 
                 int num = board[i][j] - '1';
-                if ((rows[i] & (1 << num)) ||
-                    (cols[j] & (1 << num)) ||
-                    (squares[3 * (i / 3) + (j / 3)] & (1 << num)))
+                if ((rows[i] & 1 << num) ||
+                    (cols[j] & 1 << num) ||
+                    (squares[3 * (i / 3) + (j / 3)] & 1 << num))
                     return false;
                 
-                rows[i] |= (1 << num);
-                cols[j] |= (1 << num);
-                squares[3 * (i / 3) + (j / 3)] |= (1 << num);
+                rows[i] |= 1 << num;
+                cols[j] |= 1 << num;
+                squares[3 * (i / 3) + (j / 3)] |= 1 << num;
             }
         }
         return true;
