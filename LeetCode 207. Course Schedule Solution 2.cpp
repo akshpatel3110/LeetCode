@@ -1,35 +1,34 @@
-// topological sort O(V + E)
-
 class Solution {
 public:
-    bool canFinish(int numCourses, vector<pair<int, int>> & prerequisites) {
+    // Time: O(V + E) = O(n + n(n - 1)) = O(n ^ 2)
+    // Space: O(V + E) = O(n ^ 2)
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> graph(numCourses);
-        for(int i = 0; i < prerequisites.size(); ++i)
-            graph[prerequisites[i].second].push_back(prerequisites[i].first);
+        for(const auto & p : prerequisites)
+            graph[p[1]].push_back(p[0]);
     
-        unordered_set<int> visiting;
+        vector<bool> visiting(numCourses, false);
         vector<bool> visited(numCourses, false);
         for (int node = 0; node < numCourses; ++node)
             if (dfs(node, graph, visiting, visited))
                 return false;
 
-        return true;        
+        return true;     
     }
     
-    bool dfs(int node, const vector<vector<int>> & graph, unordered_set<int> & visiting, vector<bool> & visited)
-    {
-        if (visiting.find(node) != visiting.end())
+    bool dfs(int node, const vector<vector<int>> & graph, vector<bool> & visiting, vector<bool> & visited) { 
+        if (visiting[node])
             return true;
 
         if (visited[node])
             return false;
         
-        visiting.insert(node);
-        for(const int neigh : graph[node])
+        visiting[node] = true;
+        for (auto neigh : graph[node])
             if (dfs(neigh, graph, visiting, visited))
                 return true;
 
-        visiting.erase(node);
+        visiting[node] = false;
         visited[node] = true;
         return false;
     }

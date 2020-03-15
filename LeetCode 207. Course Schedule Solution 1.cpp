@@ -1,25 +1,23 @@
-// brute force O(VE)
-
 class Solution {
 public:
-    bool canFinish(int numCourses, vector<pair<int, int>> & prerequisites) {
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> graph(numCourses);
-        for(int i = 0; i < prerequisites.size(); ++i)
-            graph[prerequisites[i].second].push_back(prerequisites[i].first);
+        for (const auto & p : prerequisites)
+            graph[p[1]].push_back(p[0]);
     
-        for(int node = 0; node < numCourses; ++node) {
+        for (int node = 0; node < numCourses; ++node) {
             vector<bool> visited(numCourses, false);
-            if (cycle(node, node, graph, visited))
+            if (dfs(node, node, graph, visited))
                 return false;
         }
 
-        return true;    
+        return true;
     }
     
-    bool cycle(int start, 
-               int cur,
-               const vector<vector<int>> & graph,
-               vector<bool> & visited) {
+    bool dfs(int start,
+             int cur,
+             const vector<vector<int>> & graph,
+             vector<bool> & visited) {
         if (start == cur && visited[start])
             return true;
         
@@ -28,10 +26,12 @@ public:
         
         visited[cur] = true;
         for (const int neigh : graph[cur]) {
-            if (cycle(start, neigh, graph, visited))
+            if (dfs(start, neigh, graph, visited))
                 return true;
         }
         
         return false;
     }
+    
+    
 };
