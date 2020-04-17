@@ -28,8 +28,6 @@ length from 1 to n
 0, 1, ..., n - 1, n, n + 1  index
    ----------------
       dp[1][n]
-
-
 */
 
 
@@ -39,15 +37,12 @@ public:
         int n = nums.size();
         nums.insert(nums.begin(), 1);
         nums.push_back(1);
-        
         vector<vector<int>> dp(n + 2, vector<int>(n + 2, 0));
-        
-        for (int length = 1; length <= n; ++length) {
-            // right most position i + length - 1 = n;
-            for (int i = 1; i <= n - length + 1; ++i) {
-                int j = i + length - 1;
+        for (int len = 1; len <= n; ++len) {
+            for (int i = 1; i + len - 1 <= n; ++i) {
+                int j = i + len - 1;
                 for (int k = i; k <= j; ++k) {
-                    dp[i][j] = max(dp[i][j], dp[i][k - 1] + nums[i - 1] * nums[k] * nums[j + 1] + dp[k + 1][j]);
+                    dp[i][j] = max(dp[i][j], nums[i - 1] * nums[k] * nums[j + 1] + dp[i][k - 1] + dp[k + 1][j]);
                 }
             }
         }
