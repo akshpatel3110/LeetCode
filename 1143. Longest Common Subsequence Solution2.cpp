@@ -1,21 +1,24 @@
 class Solution {
 public:
+    // Time: O(mn)
+    // Space: O(min(m, n))
     int longestCommonSubsequence(string text1, string text2) {
         int m = text1.size(), n = text2.size();
-        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
-        function<int(int, int)> dfs = [&](int i, int j) {
-            if (i == 0 || j == 0)
-                return 0;
-            
-            if (dp[i][j])
-                return dp[i][j];
-            
-            int res = max(dfs(i - 1, j), dfs(i, j - 1));
-            if (text1[i - 1] == text2[j - 1])
-                res = max(res, dfs(i - 1, j - 1) + 1);
-            
-            return dp[i][j] = res;
-        };
-        return dfs(m, n);
+        bool swap = false;
+        if (n > m) {
+            std::swap(m, n);
+            swap = true;
+        }
+        vector<vector<int>> dp(2, vector<int>(n + 1));
+        for (int i = 1; i <= m; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                if ((!swap && text1[i - 1] == text2[j - 1]) ||
+                    (swap && text1[j - 1] == text2[i - 1]))
+                    dp[i & 1][j] = dp[i - 1 & 1][j - 1] + 1;
+                else
+                    dp[i & 1][j] = max(dp[i - 1 & 1][j], dp[i & 1][j - 1]);
+            }
+        }
+        return dp[m & 1][n];
     }
 };
