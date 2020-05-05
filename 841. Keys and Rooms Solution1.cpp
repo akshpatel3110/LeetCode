@@ -1,26 +1,19 @@
-/*
-
-Time: O(V + E) 1000 + 3000
-Space: O(V) 1000
-
-*/
-
-
 class Solution {
 public:
+    // Time: O(E)
+    // Space: O(V)
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
         unordered_set<int> visited;
-        dfs(rooms, visited, 0);
+        dfs(rooms, 0, visited);
         return visited.size() == rooms.size();
     }
     
-private:
-    void dfs(vector<vector<int>>& rooms, unordered_set<int> & visited, int cur) {
-        if (visited.find(cur) != visited.end())
+    void dfs(vector<vector<int>> & rooms, int cur, unordered_set<int> & visited) {
+        if (visited.count(cur))
             return;
         
         visited.insert(cur);
         for (int neigh : rooms[cur])
-            dfs(rooms, visited, neigh);
+            dfs(rooms, neigh, visited);
     }
 };
