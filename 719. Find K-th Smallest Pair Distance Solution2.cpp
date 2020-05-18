@@ -1,6 +1,6 @@
 class Solution {
 public:
-    // Time: O(nlogn)
+    // Time: O(nlogn + nlogd) where d is nums.back() - nums.front()
     // Space: O(1)
     int pairs_less_than_or_equal(const vector<int> & nums, int m) {
         int count = 0;
