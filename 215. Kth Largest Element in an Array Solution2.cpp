@@ -1,5 +1,7 @@
 class Solution {
 public:
+    // Time: O(n + n / 2 + n / 4 + ...) = O(n)
+    // Space: O(1)
     int findKthLargest(vector<int>& nums, int k) {
         int l = 0, r = nums.size() - 1;
         while (true) {
@@ -15,18 +17,19 @@ public:
     
     int partition(vector<int> & nums, int l, int r) {
         swap(nums[l], nums[l + rand() % (r - l + 1)]);
-        int pivot = nums[l], i = l, j = r;
-        while (i < j) {
-            while (i < j && nums[j] <= pivot)
-                --j;
+        int pivot = nums[l];
+        while (l < r) {
+            while (l < r && nums[r] <= pivot)
+                --r;
             
-            while (i < j && nums[i] >= pivot)
-                ++i;
+            nums[l] = nums[r];
             
-            if (i < j)
-                swap(nums[i], nums[j]);
+            while (l < r && nums[l] >= pivot)
+                ++l;
+            
+            nums[r] = nums[l];
         }
-        swap(nums[i], nums[l]);
-        return i;
+        nums[l] = pivot;
+        return l;
     }
 };
