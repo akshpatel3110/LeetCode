@@ -21,7 +21,7 @@ public:
                 
                 if (k - 1 > j) {
                     sum = nums[i] + nums[j] + nums[k - 1];
-                    new_diff = abs(sum - target);
+                    new_diff = target - sum;
                     if (diff > new_diff) {
                         diff = new_diff;
                         res = sum;
