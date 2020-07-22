@@ -1,23 +1,19 @@
-// Time O(2n) = O(n)
-// Space O(n)
-
 class Solution {
 public:
+    // Time: O(n)
+    // Space: O(n)
     int longestConsecutive(vector<int>& nums) {
-        unordered_set<int> num_set(nums.begin(), nums.end());
         int res = 0;
-        for (int num : nums) {
-            if (num_set.find(num - 1) == num_set.end()) {
-                int cur_num = num;
-                int cur_streak = 1;
-
-                // each number is visited at most twice
-                while (num_set.find(cur_num + 1) != num_set.end()) {
-                    ++cur_num;
-                    ++cur_streak;
-                }
-                res = max(res, cur_streak);
-            }
+        unordered_set<int> s(nums.begin(), nums.end());
+        for (int x : nums) {
+            if (!s.count(x))
+                continue;
+            
+            s.erase(x);
+            int l = x - 1, r = x + 1;
+            while (s.count(l)) s.erase(l--);  
+            while (s.count(r)) s.erase(r++);
+            res = max(res, r - l - 1);
         }
         return res;
     }

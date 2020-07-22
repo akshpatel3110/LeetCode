@@ -19,18 +19,17 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
+        if (!root)
+            return root;
+        
         auto node = root;
-        while (node) {
-            auto dummy = new Node;
-            auto tail = dummy;
+        while (node->left) {
             for (auto p = node; p; p = p->next) {
-                if (p->left)
-                    tail = tail->next = p->left;
-                
-                if (p->right)
-                    tail = tail->next = p->right;
+                p->left->next = p->right;
+                if (p->next)
+                    p->right->next = p->next->left;
             }
-            node = dummy->next;
+            node = node->left;
         }
         return root;
     }

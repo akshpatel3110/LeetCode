@@ -1,51 +1,30 @@
-// Time O(26 * word_len * size of word_list) = O(word_len * size of word_list)
-// Space O(size of word_list)
-
 class Solution {
 public:
-    int ladderLength(string begin_word, string end_word, vector<string>& word_list) {
-        unordered_set<string> dic(word_list.cbegin(), word_list.cend());
-        if (dic.find(end_word) == dic.end())
-            return 0;
-        
-        // we don't want to have a path like hit -> ... -> hit
-        dic.erase(begin_word);
-        
-        int level = 0;
-        int word_len = begin_word.size();
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> words(wordList.cbegin(), wordList.cend());
+        unordered_map<string, int> dist;
+        dist[beginWord] = 0;
         queue<string> q;
-        q.push(begin_word);
-        
-        while (!q.empty()) {
-            ++level;
-            
-            // queue size is changing, take it out now! otherwise we don't know
-            // how many items are in the current level.
-            int level_items = q.size();
-            for (int i = 0; i < level_items; ++i) {
-                string word = q.front();
-                q.pop();
-                for (int pos = 0; pos < word_len; ++pos) {
-                    char orig_char = word[pos];
-                    for (char c = 'a'; c <= 'z'; ++c) {
-                        word[pos] = c;
-                        if (word == end_word)
-                            return level + 1;
+        q.push(beginWord);
+        while (q.size()) {
+            auto t = q.front();
+            q.pop();
+
+            string r = t;
+            for (int i = 0; i < t.size(); ++i) {
+                for (char c = 'a'; c <= 'z'; ++c) {
+                    t[i] = c;
+                    if (words.count(t) && !dist.count(t)) {
+                        dist[t] = dist[r] + 1;
+                        if (t == endWord) 
+                            return dist[t] + 1;
                         
-                        if (dic.find(word) == dic.end())
-                            continue;
-                        
-                        // we don't want to have a path like ... hot -> ... -> hot
-                        dic.erase(word);
-                        
-                        // queue word to the next level
-                        q.push(word);
+                        q.push(t);
                     }
-                    word[pos] = orig_char;
                 }
+                t = r;
             }
         }
-        
-        return 0;
+        return 0;     
     }
 };
