@@ -23,10 +23,7 @@ public:
                         ++same_points;
                 } else {
                     int dx = x1 - x2, dy = y1 - y2, d = gcd(dy, dx);
-                    string key = to_string(abs(dy / d)) + "/" + to_string(abs(dx / d));
-                    if (dy / dx < 0)
-                        key += '-';
-                    
+                    string key = to_string(dy / d) + "/" + to_string(dx / d);
                     ++hash[key];
                 }
             }
