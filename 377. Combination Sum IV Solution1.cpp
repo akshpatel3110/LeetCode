@@ -1,15 +1,17 @@
 class Solution {
-public:    
+public:
+    // Time: O(n * target)
+    // Space: O(target)
+    // follow up: if negative numbers are allowed in nums, we might have infinite combinations
+    // for a given target. We can add a limitation on how many times the negative number can be used.
     int combinationSum4(vector<int>& nums, int target) {
-        vector<unsigned long> dp(target + 1);
+        int n = nums.size();
+        vector<unsigned> dp(target + 1);
         dp[0] = 1;
-        sort(nums.begin(), nums.end());
         for (int i = 1; i <= target; ++i) {
-            for (int num : nums) {
-                if (i < num) 
-                    break;
-                
-                dp[i] += dp[i - num];
+            for (int j = 0; j < n; ++j) {
+                if (i >= nums[j])
+                    dp[i] = (dp[i] + dp[i - nums[j]]) % INT_MAX;
             }
         }
         return dp[target];
