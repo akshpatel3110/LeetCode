@@ -1,19 +1,17 @@
-// Time: O(glogg + slogs + s + g) = O(glogg + slogs)
-// Space: O(1)
 class Solution {
 public:
+    // Time: O(glogg + slogs)
+    // Space: O(1)
     int findContentChildren(vector<int>& g, vector<int>& s) {
         sort(g.begin(), g.end());
         sort(s.begin(), s.end());
-        int i = 0, j = 0, res = 0;
-        while (j < s.size()) {
-            if (s[j] >= g[i]) {
+        int res = 0;
+        for (int i = 0, j = 0; i < g.size(); ++i) {
+            while (j < s.size() && s[j] < g[i]) ++j;
+            if (j < s.size()) {
                 ++res;
-                ++i; // next children
-            }
-            if (i == g.size())
-                break;
-            ++j;
+                ++j;
+            } else break;
         }
         return res;
     }
