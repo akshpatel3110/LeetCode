@@ -1,7 +1,7 @@
 struct Node {
     int key;
-    int value;
-    int freq;
+    int value; // can be put to value of hash_freq
+    int freq;  // can be put to value of hash_freq
     list<int>::const_iterator it;
 };
 
@@ -11,8 +11,7 @@ public:
     int min_freq;
     unordered_map<int, Node> hash_node;
     unordered_map<int, list<int>> hash_freq;
-    
-    
+
     LFUCache(int capacity) 
         : cap(capacity)
         , min_freq(0)
@@ -30,7 +29,7 @@ public:
         
         // new freq
         ++node.freq;
-        auto & new_l = hash_freq[node.freq];
+        auto & new_l = hash_freq[node.freq]; // create new_l if it does not exist
         new_l.push_front(node.key);
         node.it = new_l.begin();
     }
