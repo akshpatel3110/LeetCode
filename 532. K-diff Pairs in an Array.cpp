@@ -1,36 +1,14 @@
-/*
-Fix i, Move j
-
- [1, 1, 2, 2, 4, 4, 5, 5, 5, 6, 7, 8] k = 2 
-                                i
-                                      j
-     
-  j = max(i + 1, j)   
-*/
-
-
 class Solution {
 public:
+    // Time: O(nlogn)
+    // Space: O(1)
     int findPairs(vector<int>& nums, int k) {
-        if (nums.size() < 2) {
-            return 0;
-        }
-        
-        int res = 0;
         sort(nums.begin(), nums.end());
-        size_t i = 0;
-        size_t j = 1;
-        while (j < nums.size()) {
-            j = max(i + 1, j);
-            while (j < nums.size() && nums[j] - nums[i] < k)
-                ++j;
-            
-            if (j < nums.size() && nums[j] - nums[i] == k)
-                ++res;
-            
-            ++i;
-            while (i < nums.size() && nums[i] == nums[i - 1])
-                ++i;
+        int res = 0;
+        for (int i = 0, j = 0; i < nums.size(); ++i) {
+            while (i + 1 < nums.size() && nums[i + 1] == nums[i]) ++i;
+            while (j < i && nums[i] - nums[j] > k) ++j;
+            if (j < i && nums[i] - nums[j] == k) ++res;
         }
         return res;
     }
